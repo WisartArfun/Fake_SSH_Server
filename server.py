@@ -1,16 +1,11 @@
 #!/usr/bin/env python
-# import logging
 import socket
 import sys
 import threading
 
 import paramiko
 
-logging.basicConfig()
-logger = logging.getLogger()
-
 host_key = paramiko.RSAKey.generate(2048)
-
 
 class Server(paramiko.ServerInterface):
     def __init__(self):
@@ -64,5 +59,3 @@ while True:
         listener()
     except KeyboardInterrupt:
         sys.exit(0)
-    except Exception as exc:
-        logger.error(exc)
