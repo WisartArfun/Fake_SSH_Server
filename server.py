@@ -24,12 +24,13 @@ class Server(paramiko.ServerInterface):
         return 'password'
 
     def check_channel_exec_request(self, channel, command):
-        print(f"A user wants to execute the command <{command}")
+        print(f"A user wants to execute the command <{command}>")
         # self.event.set()
         return True
 
     def check_auth_password(self, username, password):
-        print(f"username: {username}\t{password}")
+        print("Login Attempt\n-------------")
+        print(f"Username:\t{username}\nPassword:\t{password}")
 
         return paramiko.AUTH_SUCCESSFUL
 
@@ -37,7 +38,8 @@ class Server(paramiko.ServerInterface):
 def listener():
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    sock.bind(('192.168.43.87',22))
+    #sock.bind(('192.168.43.87',22))
+    sock.bind(('10.0.2.15',22))
 
     sock.listen(100)
     client, addr = sock.accept()
@@ -50,7 +52,7 @@ def listener():
     t.start_server(server=server)
 
     # Wait 30 seconds for a command
-    server.event.wait(30)
+    server.event.wait(300)
     t.close()
 
 
